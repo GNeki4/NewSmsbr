@@ -8,18 +8,20 @@ public class SimpleAIController : MonoBehaviour
     public float range;
     public GameObject target;
     public Vector3 start;
-    //
+    
     public float health;
     public float attackCD;
     private float attackTimer;
     public float damage;
 
+    PlayerHealth playerHealth;
     NavMeshAgent agent;
 
     public void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        start = transform.position; 
+        start = transform.position;
+        playerHealth = target.GetComponent<PlayerHealth>();
     }
 
     public void Update()
@@ -30,17 +32,17 @@ public class SimpleAIController : MonoBehaviour
         {
             agent.SetDestination(target.transform.position);
 
-            print(distance);
             if (distance <= agent.stoppingDistance)
             {
                 FaceTarget();
-                print(distance.ToString());
                 attackTimer += Time.deltaTime;
 
                 if (attackTimer >= attackCD)
-                    print("trying to attack lol but u suck at coding");
-                    //Attack();
-                //
+                {
+                    // play anim
+                    playerHealth.TakeDamage(damage);
+                }
+
             }          
         }
         else
@@ -55,10 +57,10 @@ public class SimpleAIController : MonoBehaviour
         {
             Debug.Log(hit.transform.name);
 
-            SimpleAIController target = hit.transform.GetComponent<SimpleAIController>();
+            var target = hit.transform.GetComponent<PlayerHealth>();
 
             if (target != null)
-                target.TakeDamage(damage);
+                playerHealth.TakeDamage(damage);
         }
             
 
