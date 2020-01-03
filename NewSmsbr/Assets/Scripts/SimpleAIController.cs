@@ -13,6 +13,7 @@ public class SimpleAIController : MonoBehaviour
     public float attackCD;
     private float attackTimer;
     public float damage;
+    public Animator anim;
 
     PlayerHealth playerHealth;
     NavMeshAgent agent;
@@ -22,6 +23,7 @@ public class SimpleAIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         start = transform.position;
         playerHealth = target.GetComponent<PlayerHealth>();
+        anim = GetComponent<Animator>();
     }
 
     public void Update()
@@ -39,8 +41,6 @@ public class SimpleAIController : MonoBehaviour
 
                 if (attackTimer >= attackCD)
                 {
-                    // play anim
-                    playerHealth.TakeDamage(damage);
                 }
 
             }          
