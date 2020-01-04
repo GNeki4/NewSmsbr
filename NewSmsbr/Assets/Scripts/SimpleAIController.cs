@@ -13,7 +13,7 @@ public class SimpleAIController : MonoBehaviour
     public float attackCD;
     private float attackTimer;
     public float damage;
-    public Animator anim;
+    public Animation anims;
 
     PlayerHealth playerHealth;
     NavMeshAgent agent;
@@ -23,15 +23,19 @@ public class SimpleAIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         start = transform.position;
         playerHealth = target.GetComponent<PlayerHealth>();
-        anim = GetComponent<Animator>();
+        anims = GetComponent<Animation>();
+        anims.Play("KontrollerDeafault");
     }
 
     public void Update()
     {
+        
         float distance = Vector3.Distance(target.transform.position, transform.position);
 
         if (distance <= range)
         {
+            anims.PlayQueued("KontrollerWalk");
+
             agent.SetDestination(target.transform.position);
 
             if (distance <= agent.stoppingDistance)
@@ -41,28 +45,25 @@ public class SimpleAIController : MonoBehaviour
 
                 if (attackTimer >= attackCD)
                 {
+                    Attack();
                 }
 
             }          
         }
         else
+        {
             agent.SetDestination(start);
+            anims.Play("KontrollerDeafault");
+        }
+
     }
 
     void Attack()
     {
-        RaycastHit hit;
+        anims.Play("KontrollerAttack");
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, range))
-        {
-            Debug.Log(hit.transform.name);
-
-            var target = hit.transform.GetComponent<PlayerHealth>();
-
-            if (target != null)
-                playerHealth.TakeDamage(damage);
-        }
-            
+        print("Attacking");
+        playerHealth.TakeDamage(damage);
 
         attackTimer = 0;
     }

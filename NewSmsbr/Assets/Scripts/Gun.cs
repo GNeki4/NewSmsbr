@@ -38,7 +38,7 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            Debug.Log(hit.transform.name);
+            print(hit.transform.name);
 
             SimpleAIController target = hit.transform.GetComponent<SimpleAIController>();
 
