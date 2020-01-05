@@ -24,17 +24,16 @@ public class SimpleAIController : MonoBehaviour
         start = transform.position;
         playerHealth = target.GetComponent<PlayerHealth>();
         anims = GetComponent<Animation>();
-        anims.Play("KontrollerDeafault");
+        anims.Play("KontrolerDef");
     }
 
     public void Update()
     {
-        
         float distance = Vector3.Distance(target.transform.position, transform.position);
 
         if (distance <= range)
-        {
-            anims.PlayQueued("KontrollerWalk");
+        {           
+            anims.PlayQueued("KontrolerWalk");
 
             agent.SetDestination(target.transform.position);
 
@@ -53,14 +52,14 @@ public class SimpleAIController : MonoBehaviour
         else
         {
             agent.SetDestination(start);
-            anims.Play("KontrollerDeafault");
+            anims.Play("KontrolerDef");
         }
 
     }
 
     void Attack()
     {
-        anims.Play("KontrollerAttack");
+        anims.Play("KontrolerAttack");
 
         print("Attacking");
         playerHealth.TakeDamage(damage);
