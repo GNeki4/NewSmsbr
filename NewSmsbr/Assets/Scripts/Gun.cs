@@ -1,15 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
     public float damage = 10f;
     public float range = 100f;
     public float fireRate = 15f;
+    public int ammo;
+    public int magazine;
+    public int capacity;
+    public float reloadTime;
+    public bool notReloading = true;
 
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
     public Recoil recoil;
+    public Text ammoDisplay;
 
     private float nextTimeToFire = 0f;
     private AudioSource gunshot;
@@ -21,11 +29,58 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        ammoDisplay.text = string.Format("Ammo: {0} / {1}", ammo, magazine);
+
+        if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire && magazine > 0 && notReloading)
         {
+            magazine--;
             nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
         } 
+        if (Input.GetKeyDown(KeyCode.R) && ammo > 0)
+        {
+            StartCoroutine(Reload());     
+        }
+    }
+
+    IEnumerator Reload()
+    {
+        print("w8 bro");
+        notReloading = false;
+
+        yield return new WaitForSeconds(reloadTime);
+
+        if (magazine == 0)
+        {
+            if (ammo >= capacity)
+            {
+                magazine = capacity;
+                ammo -= capacity;
+            }
+            else
+            {
+                magazine = ammo;
+                ammo = 0;
+            }
+        }
+        else
+        {
+            int notEnough = capacity - magazine;
+
+            if (ammo >= notEnough)
+            {
+                magazine = capacity;
+                ammo -= notEnough;
+            }
+            else
+            {
+                magazine += ammo;
+                ammo = 0;
+            }
+        }
+
+        notReloading = true;
+        print("reloaded!");
     }
 
     void Shoot()

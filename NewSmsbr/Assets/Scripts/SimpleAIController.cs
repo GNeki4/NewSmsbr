@@ -14,12 +14,14 @@ public class SimpleAIController : MonoBehaviour
     private float attackTimer;
     public float damage;
     public Animation anims;
+    public AudioSource[] sounds;
 
     PlayerHealth playerHealth;
     NavMeshAgent agent;
 
     public void Start()
     {
+        sounds = GetComponents<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
         start = transform.position;
         playerHealth = target.GetComponent<PlayerHealth>();
@@ -58,9 +60,11 @@ public class SimpleAIController : MonoBehaviour
     }
 
     void Attack()
-    {
+    {     
         anims.Play("KontrolerAttack");
+        sounds[Random.Range(0,2)].Play();
 
+        
         print("Attacking");
         playerHealth.TakeDamage(damage);
 

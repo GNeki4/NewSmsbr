@@ -24,7 +24,7 @@ public class MeleeWeapon : MonoBehaviour
     {
         attackTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && attackTimer >= attackCD)
+        if (Input.GetMouseButton(0) && attackTimer >= attackCD)
             Attack();
 
         anims.PlayQueued("RakeDefault");

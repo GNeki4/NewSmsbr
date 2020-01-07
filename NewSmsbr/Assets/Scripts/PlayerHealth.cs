@@ -9,8 +9,8 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth;
 
     bool isDead;
-
-    public Image healthImage;
+    //public Image healthImage;
+    public Text hpDisplay; //убрать когда сделаю стиль как у роберта к пулям
 
     void Start()
     {
@@ -20,7 +20,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        healthImage.fillAmount = currentHealth / maxHealth;
+        //healthImage.fillAmount = currentHealth / maxHealth;
+        hpDisplay.text = string.Format("Health: {0}", currentHealth); //убрать когда сделаю стиль как у роберта к пулям
 
         if (isDead)
         {
